@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Image, Button } from "react-native";
+import { url } from "./ApiData";
 
 const Home = ({ navigation }) => {
   const [data, setData] = useState([]);
   const [loading, setLoadoing] = useState(true);
-  const url = "http://cat-store-api.frostdigital.se/api";
   useEffect(() => {
     fetch(url)
       .then((res) => res.json())
@@ -13,10 +13,8 @@ const Home = ({ navigation }) => {
       .finally(() => setLoadoing(false));
   }, []);
 
-
   return (
     <View style={styles.container}>
-      {/* <globalContext.Provider value={data}> */}
         {loading ? (
           <Text>loading....</Text>
         ) : (
@@ -33,12 +31,16 @@ const Home = ({ navigation }) => {
               <Text style={{ fontSize: 16 }}>{data.description}</Text>
               <Button
                 title="Details"
-                onPress={() => navigation.navigate("Details")}
+                onPress={() => navigation.navigate("Details", 
+                {name: `${data.name}`, 
+                description: `${data.description}`, 
+                image:`${data.imageUrl}`, 
+                stock:`${data.stock}`, 
+                price:`${data.price}` })}
               />
             </>
           ))
         )}
-      {/* </globalContext.Provider> */}
     </View>
   );
 };
