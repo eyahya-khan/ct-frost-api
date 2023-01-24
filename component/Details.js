@@ -1,14 +1,28 @@
-import { Text, View, Image, Button, StyleSheet } from "react-native";
+import { useState } from "react";
+import { Text, View, Image, Button, StyleSheet, TextInput } from "react-native";
 
 const Details = ({ route }) => {
+    const [quantity, setQuantity] = useState(1)
   const { name, image, stock, price, description } = route.params;
   return (
     <View style={styles.container}>
       <Image source={image}/>
       <Text style={{ fontSize: 16, fontWeight: "bold" }}> {name}</Text>
       <Text>In details: {description}</Text>
-      <Text>In Stock: {stock}</Text>
       <Text>Price: {price} SEK</Text>
+      <Text>In Stock: {stock}</Text>
+      <View style={styles.quantity}>
+      <Button title="-" onPress={()=>setQuantity(quantity - 1)}/>
+      {/* <TextInput
+        style={styles.input}
+        onChangeText={setQuantity}
+        value={quantity}
+        placeholder="1"
+        keyboardType="numeric"
+        /> */}
+        <Text>{quantity}</Text>
+        <Button title="+" onPress={()=>setQuantity(quantity + 1)}/>
+        </View>
       <Button title="Add" />
     </View>
   );
@@ -29,5 +43,16 @@ const styles = StyleSheet.create({
     marginTop: 25,
     alignSelf: "center",
     marginHorizontal: 20,
+  },
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+  },
+  quantity: {
+    flexDirection: 'row',
+    justifyContent: "center",
+    marginTop:25,
   },
 });
