@@ -18,7 +18,7 @@ export default function App() {
         loading ? (<Text>loading....</Text>) : (
           data.products.map((data)=>(
             <View>
-              <Text style={{fontSize:16}}>Title:{data.name}</Text>
+              <Text style={{fontSize:16}}>Name:{data.name}</Text>
             </View>
           ))
         )
