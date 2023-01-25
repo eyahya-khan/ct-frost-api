@@ -1,8 +1,9 @@
-import { useReducer } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 import { Text, View, Image, Button, StyleSheet } from "react-native";
-import { Avatar, Badge } from '@rneui/themed';
+import CartIcon from "./CartIcon";
 
 const initialValue = 1;
+export const GlobalContext = createContext();
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -16,48 +17,39 @@ const reducer = (state, action) => {
   }
 };
 
-const Details = ({ route}) => {
+const Details = ({ route }) => {
   const [quantity, dispatch] = useReducer(reducer, initialValue);
   const { name, image, stock, price, description } = route.params;
+
+  const [cartQuantity, setCartQuantity] = useState(true)
+  
   return (
-    <View style={styles.container}>
-        <View>
-          {/* <Avatar
-            rounded
-            source={{
-              uri: 'https://randomuser.me/api/portraits/women/40.jpg',
-            }}
-            size="large"
-          /> */}
-          <Image source={require("../assets/icon.png")} style={styles.itemImage}/>
-          <Badge
-            status="primary"
-            value={quantity}
-            containerStyle={{ position: 'absolute', top: 5, left: 60 }}
-          />
-        </View>
-      <Image source={image} />
-      <Text style={{ fontSize: 16, fontWeight: "bold" }}> {name}</Text>
-      <Text>In details: {description}</Text>
-      <Text>Price: {price} SEK</Text>
-      <Text>In Stock: {stock}</Text>
-      <View style={styles.quantity}>
-        <Button title="-" onPress={() => dispatch({ type: "decreament" })} />
-        {/* <TextInput
+    <GlobalContext.Provider value={{quantity, cartQuantity}}>
+      <View style={styles.container}>
+        <CartIcon />
+        <Image source={image} />
+        <Text style={{ fontSize: 16, fontWeight: "bold" }}> {name}</Text>
+        <Text>In details: {description}</Text>
+        <Text>Price: {price} SEK</Text>
+        <Text>In Stock: {stock}</Text>
+        <View style={styles.quantity}>
+          <Button title="-" onPress={() => dispatch({ type: "decreament" })} />
+          {/* <TextInput
         style={styles.input}
         onChangeText={setQuantity}
         value={quantity}
         placeholder="1"
         keyboardType="numeric"
-        /> */}
-        <Text>{quantity}</Text>
-        <Button
-          title="+"
-          onPress={() => dispatch({ type: "increment", value: stock })}
-        />
+      /> */}
+          <Text>{quantity}</Text>
+          <Button
+            title="+"
+            onPress={() => dispatch({ type: "increment", value: stock })}
+          />
+        </View>
+        <Button title="Add" onPress={()=>setCartQuantity(false)}/>
       </View>
-      <Button title="Add" />
-    </View>
+    </GlobalContext.Provider>
   );
 };
 
@@ -69,7 +61,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    padding:15
+    padding: 15,
   },
   itemImage: {
     width: 60,
