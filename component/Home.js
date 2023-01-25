@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Image, Button } from "react-native";
+import { StyleSheet, Text, View, Image, Button, ScrollView } from "react-native";
 import { url } from "./ApiData";
 
 const Home = ({ navigation }) => {
@@ -14,34 +14,40 @@ const Home = ({ navigation }) => {
   }, []);
 
   return (
+    <ScrollView>
+
     <View style={styles.container}>
-        {loading ? (
+      {loading ? (
           <Text>loading....</Text>
-        ) : (
-          data.products.map((data) => (
-            <>
-              {/* <Image source={{ uri: `${data.imageUrl}` }} style={styles.itemImage}/> */}
-              <Image
-                source={require("../assets/icon.png")}
-                style={styles.itemImage}
+          ) : (
+              data.products.map((data) => (
+                  <>
+            {/* <Image source={{ uri: `${data.imageUrl}` }} style={styles.itemImage}/> */}
+            <Image
+              source={require("../assets/icon.png")}
+              style={styles.itemImage}
               />
-              <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-                {data.name}
-              </Text>
-              <Text style={{ fontSize: 16 }}>{data.description}</Text>
-              <Button
-                title="Details"
-                onPress={() => navigation.navigate("Details", 
-                {name: `${data.name}`, 
-                description: `${data.description}`, 
-                image:`${data.imageUrl}`, 
-                stock:`${data.stock}`, 
-                price:`${data.price}` })}
-              />
-            </>
-          ))
+            <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+              {data.name}
+            </Text>
+            <Text style={{ fontSize: 16 }}>{data.description}</Text>
+            <Button
+              title="Details"
+              onPress={() =>
+                navigation.navigate("Details", {
+                    name: `${data.name}`,
+                    description: `${data.description}`,
+                    image: `${data.imageUrl}`,
+                    stock: `${data.stock}`,
+                    price: `${data.price}`,
+                })
+            }
+            />
+          </>
+        ))
         )}
     </View>
+        </ScrollView>
   );
 };
 
@@ -53,6 +59,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    padding: 15,
   },
   itemImage: {
     width: 60,
