@@ -1,12 +1,100 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { useContext } from "react";
+import { View, Text, Pressable, StyleSheet } from "react-native";
+import { GlobalCont } from "../App";
 
-const CartProducts = () => {
+const CartProducts = ({ route, navigation }) => {
+  const { quantity, id } = route.params;
+  const cartContext = useContext(GlobalCont);
+
   return (
-    <View>
-      <Text>CartProducts</Text>
+    <View style={styles.container}>
+      {cartContext.data.products.map((data, dataId) =>
+        dataId == id ? (
+          <View style={styles.quantity}>
+            <Text style={styles.text}>{data.name}</Text>
+            <Text style={styles.text}>{data.price}</Text>
+            <Text>Total: {data.price * quantity} SEK</Text>
+          </View>
+        ) : null
+        )}
+      <Pressable
+      style={styles.button}
+      onPress={() => navigation.navigate("Success")}
+      >
+        <Text style={styles.btnText}>Buy</Text>
+      </Pressable>
     </View>
-  )
-}
+  );
+};
 
-export default CartProducts
+export default CartProducts;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 13,
+  },
+  text: {
+    fontSize: 22,
+    marginBottom: 10,
+    fontWeight: "bold",
+    padding: 5,
+  },
+  itemImage: {
+    width: 60,
+    height: 60,
+    marginTop: 25,
+    alignSelf: "center",
+    marginHorizontal: 20,
+  },
+  textInput: {
+    // height: 40,
+    // margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    fontSize: 22,
+    fontWeight: "bold",
+  },
+  quantity: {
+    flexDirection: "row",
+    // justifyContent: "center",
+    // marginTop: 25,
+  },
+  buttonIncrease: {
+    alignItems: "center",
+    justifyContent: "center",
+    // paddingVertical: 5,
+    paddingHorizontal: 15,
+    padding: 5,
+    borderRadius: 4,
+    // elevation: 3,
+    backgroundColor: "green",
+    marginBottom: 15,
+  },
+  button: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 42,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: "black",
+  },
+  btnTextIncrease: {
+    fontSize: 16,
+    // lineHeight: 21,
+    fontWeight: "bold",
+    letterSpacing: 0.25,
+    color: "white",
+  },
+  btnText: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: "bold",
+    letterSpacing: 0.25,
+    color: "white",
+  },
+});

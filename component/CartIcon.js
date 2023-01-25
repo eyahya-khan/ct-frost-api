@@ -1,24 +1,25 @@
-import { View, StyleSheet, Text, Pressable } from "react-native";
-import { Avatar, Badge, Button } from "@rneui/themed";
-import React, { useContext, useEffect } from "react";
-import { GlobalContext } from "./Details";
+import { StyleSheet, Pressable } from "react-native";
+import { Avatar, Badge } from "@rneui/themed";
+import { useNavigation } from "@react-navigation/native";
 
-const CartIcon = ({ navigation }) => {
-  const GlobalContextData = useContext(GlobalContext);
+const CartIcon = (props) => {
+  const navigation = useNavigation();
   return (
-    <Pressable
-      style={styles.container}
-    //   onPress={() => navigation.navigate("cartProducts")}
-    >
-      <Avatar rounded source={require("../assets/cart.png")} size="small" />
-      {GlobalContextData.cartQuantity ? (
-        <Badge
-          status="success"
-          value={GlobalContextData.quantity}
-          containerStyle={{ position: "absolute", top: 2, left: 25 }}
-        />
-      ): null}
-    </Pressable>
+    <>
+      <Pressable
+        style={styles.container}
+        onPress={() => navigation.navigate("Cartproducts",{quantity:`${props.quantity}`, id:`${props.id}`})}
+      >
+        <Avatar rounded source={require("../assets/cart.png")} size="small" />
+        {props.cartQuantity ? (
+          <Badge
+            status="success"
+            value={props.quantity}
+            containerStyle={{ position: "absolute", top: 2, left: 25 }}
+          />
+        ) : null}
+      </Pressable>
+    </>
   );
 };
 
@@ -26,8 +27,8 @@ export default CartIcon;
 
 const styles = StyleSheet.create({
   container: {
-    // marginTop: -50,
-    marginBottom: 50,
+    marginTop: 10,
+    marginBottom: 30,
     right: -110,
   },
 });

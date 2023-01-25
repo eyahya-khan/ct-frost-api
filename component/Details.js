@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer, useState } from "react";
+import { useReducer, useState } from "react";
 import {
   Text,
   View,
@@ -6,13 +6,10 @@ import {
   StyleSheet,
   Pressable,
   TextInput,
-  ScrollView
 } from "react-native";
 import CartIcon from "./CartIcon";
 
 const initialValue = 1;
-export const GlobalContext = createContext();
-
 const reducer = (state, action) => {
   switch (action.type) {
     case "increment":
@@ -27,56 +24,51 @@ const reducer = (state, action) => {
 
 const Details = ({ route }) => {
   const [quantity, dispatch] = useReducer(reducer, initialValue);
-  const { name, image, stock, price, description } = route.params;
-
+  const { name, id, image, stock, price, description } = route.params;
   const [cartQuantity, setCartQuantity] = useState(false);
+  const [items, setItems] = useState([]);
 
-  const handleAdd=()=>{
-    setCartQuantity((true))
-  }
+  const handleAdd = () => {
+    setCartQuantity(true);
+  };
 
   return (
-    <GlobalContext.Provider value={{ quantity, cartQuantity }}>
-      {/* <ScrollView> */}
-      <View style={styles.container}>
-        <CartIcon />
-        <Image source={image} />
-        <Text style={styles.text}> {name}</Text>
-        <Text style={{ fontSize: 18, marginBottom: 10 }}>{description}</Text>
-        <Text style={styles.text}>{price} SEK /st</Text>
-        <Text style={styles.text}>In Stock: {stock}</Text>
-        <View style={styles.quantity}>
-          <Pressable
-            style={styles.buttonIncrease}
-            onPress={() => dispatch({ type: "decreament", value: stock })}
-            >
-            <Text style={styles.btnTextIncrease}>-</Text>
-          </Pressable>
-          <TextInput
+    <View style={styles.container}>
+      <CartIcon quantity={quantity} cartQuantity={cartQuantity} id={id}/>
+      <Image source={image} />
+      <Text style={styles.text}>
+        {name}
+      </Text>
+      <Text style={{ fontSize: 18, marginBottom: 10 }}>{description}</Text>
+      <Text style={styles.text}>{price} SEK /st</Text>
+      <Text style={styles.text}>In Stock: {stock}</Text>
+      <View style={styles.quantity}>
+        <Pressable
+          style={styles.buttonIncrease}
+          onPress={() => dispatch({ type: "decreament", value: stock })}
+        >
+          <Text style={styles.btnTextIncrease}>-</Text>
+        </Pressable>
+        {/* <TextInput
             style={styles.textInput}
-            // onChangeText={setQuantity}
+            onChangeText={setQuantity}
             value={quantity}
             placeholder="1"
             keyboardType="numeric"
-            />
-          {/* <Text>{quantity}</Text> */}
+            /> */}
+        <Text style={styles.text}>{quantity}</Text>
 
-          <Pressable
-            style={styles.buttonIncrease}
-            onPress={() => dispatch({ type: "increment", value: stock })}
-            >
-            <Text style={styles.btnTextIncrease}>+</Text>
-          </Pressable>
-        </View>
-        <Pressable 
-        style={styles.button}
-        onPress = {handleAdd}
+        <Pressable
+          style={styles.buttonIncrease}
+          onPress={() => dispatch({ type: "increment", value: stock })}
         >
-          <Text style={styles.btnText}>Add</Text>
+          <Text style={styles.btnTextIncrease}>+</Text>
         </Pressable>
       </View>
-          {/* </ScrollView> */}
-    </GlobalContext.Provider>
+      <Pressable style={styles.button} onPress={handleAdd}>
+        <Text style={styles.btnText}>Add</Text>
+      </Pressable>
+    </View>
   );
 };
 
@@ -94,6 +86,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     marginBottom: 10,
     fontWeight: "bold",
+    padding:5,
   },
   itemImage: {
     width: 60,
@@ -107,19 +100,20 @@ const styles = StyleSheet.create({
     // margin: 12,
     borderWidth: 1,
     padding: 10,
-    fontSize:22,
-    fontWeight:"bold"
+    fontSize: 22,
+    fontWeight: "bold",
   },
   quantity: {
     flexDirection: "row",
-    justifyContent: "center",
+    // justifyContent: "center",
     // marginTop: 25,
+    
   },
   buttonIncrease: {
     alignItems: "center",
     justifyContent: "center",
     // paddingVertical: 5,
-    // paddingHorizontal: 15,
+    paddingHorizontal: 15,
     padding: 5,
     borderRadius: 4,
     // elevation: 3,
@@ -130,7 +124,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 12,
-    paddingHorizontal: 32,
+    paddingHorizontal: 42,
     borderRadius: 4,
     elevation: 3,
     backgroundColor: "black",
