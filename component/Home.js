@@ -4,7 +4,6 @@ import {
   Text,
   View,
   Image,
-  Button,
   ScrollView,
   Pressable,
 } from "react-native";
@@ -29,11 +28,8 @@ const Home = ({ navigation }) => {
         ) : (
           data.products.map((data) => (
             <>
-              {/* <Image source={{ uri: `${data.imageUrl}` }} style={styles.itemImage}/> */}
-              <Image
-                source={require("../assets/icon.png")}
-                style={styles.itemImage}
-              />
+              <Image source={{ uri: 'https://reactnative.dev/img/tiny_logo.png', }} style={styles.itemImage}/>
+              {/* <Image source={{ uri: `${data.imageUrl}`, }} style={styles.itemImage}/> */}
               <Text style={{ fontSize: 22, marginBottom:15, fontWeight: "bold" }}>
                 {data.name}
               </Text>
