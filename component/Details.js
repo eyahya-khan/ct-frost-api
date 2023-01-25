@@ -1,5 +1,6 @@
 import { useReducer } from "react";
 import { Text, View, Image, Button, StyleSheet } from "react-native";
+import { Avatar, Badge } from '@rneui/themed';
 
 const initialValue = 1;
 
@@ -15,11 +16,26 @@ const reducer = (state, action) => {
   }
 };
 
-const Details = ({ route }) => {
+const Details = ({ route}) => {
   const [quantity, dispatch] = useReducer(reducer, initialValue);
   const { name, image, stock, price, description } = route.params;
   return (
     <View style={styles.container}>
+        <View>
+          {/* <Avatar
+            rounded
+            source={{
+              uri: 'https://randomuser.me/api/portraits/women/40.jpg',
+            }}
+            size="large"
+          /> */}
+          <Image source={require("../assets/icon.png")} style={styles.itemImage}/>
+          <Badge
+            status="primary"
+            value={quantity}
+            containerStyle={{ position: 'absolute', top: 5, left: 60 }}
+          />
+        </View>
       <Image source={image} />
       <Text style={{ fontSize: 16, fontWeight: "bold" }}> {name}</Text>
       <Text>In details: {description}</Text>

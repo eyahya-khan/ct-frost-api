@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Image, Button, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Button,
+  ScrollView,
+} from "react-native";
 import { url } from "./ApiData";
 
 const Home = ({ navigation }) => {
@@ -15,39 +22,38 @@ const Home = ({ navigation }) => {
 
   return (
     <ScrollView>
-
-    <View style={styles.container}>
-      {loading ? (
+      <View style={styles.container}>
+        {loading ? (
           <Text>loading....</Text>
-          ) : (
-              data.products.map((data) => (
-                  <>
-            {/* <Image source={{ uri: `${data.imageUrl}` }} style={styles.itemImage}/> */}
-            <Image
-              source={require("../assets/icon.png")}
-              style={styles.itemImage}
+        ) : (
+          data.products.map((data) => (
+            <>
+              {/* <Image source={{ uri: `${data.imageUrl}` }} style={styles.itemImage}/> */}
+              <Image
+                source={require("../assets/icon.png")}
+                style={styles.itemImage}
               />
-            <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-              {data.name}
-            </Text>
-            <Text style={{ fontSize: 16 }}>{data.description}</Text>
-            <Button
-              title="Details"
-              onPress={() =>
-                navigation.navigate("Details", {
+              <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                {data.name}
+              </Text>
+              <Text style={{ fontSize: 16 }}>{data.description}</Text>
+              <Button
+                title="Details"
+                onPress={() =>
+                  navigation.navigate("Details", {
                     name: `${data.name}`,
                     description: `${data.description}`,
                     image: `${data.imageUrl}`,
                     stock: `${data.stock}`,
                     price: `${data.price}`,
-                })
-            }
-            />
-          </>
-        ))
+                  })
+                }
+              />
+            </>
+          ))
         )}
-    </View>
-        </ScrollView>
+      </View>
+    </ScrollView>
   );
 };
 
