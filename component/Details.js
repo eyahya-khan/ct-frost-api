@@ -1,8 +1,22 @@
-import { useState } from "react";
+import { useReducer } from "react";
 import { Text, View, Image, Button, StyleSheet, TextInput } from "react-native";
 
+const initialValue = 1;
+
+const reducer = (state, action) =>{
+    switch(action.type){
+        case "increment":
+           return state < action.value ?  state + 1: state
+            
+        case "decreament":
+            return state >= 2 ? state - 1 : state
+        default:
+            return initialValue
+    }
+}
+
 const Details = ({ route }) => {
-    const [quantity, setQuantity] = useState(1)
+   const [quantity, dispatch] = useReducer(reducer, initialValue)
   const { name, image, stock, price, description } = route.params;
   return (
     <View style={styles.container}>
@@ -12,7 +26,7 @@ const Details = ({ route }) => {
       <Text>Price: {price} SEK</Text>
       <Text>In Stock: {stock}</Text>
       <View style={styles.quantity}>
-      <Button title="-" onPress={()=>setQuantity(quantity - 1)}/>
+      <Button title="-" onPress={()=>dispatch({type:"decreament"})}/>
       {/* <TextInput
         style={styles.input}
         onChangeText={setQuantity}
@@ -21,7 +35,7 @@ const Details = ({ route }) => {
         keyboardType="numeric"
         /> */}
         <Text>{quantity}</Text>
-        <Button title="+" onPress={()=>setQuantity(quantity + 1)}/>
+        <Button title="+" onPress={()=>dispatch({type:"increment", value: stock})}/>
         </View>
       <Button title="Add" />
     </View>
