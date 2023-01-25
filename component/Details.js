@@ -1,5 +1,5 @@
 import { createContext, useEffect, useReducer, useState } from "react";
-import { Text, View, Image, Button, StyleSheet } from "react-native";
+import { Text, View, Image, Button, StyleSheet,Pressable } from "react-native";
 import CartIcon from "./CartIcon";
 
 const initialValue = 1;
@@ -21,19 +21,23 @@ const Details = ({ route }) => {
   const [quantity, dispatch] = useReducer(reducer, initialValue);
   const { name, image, stock, price, description } = route.params;
 
-  const [cartQuantity, setCartQuantity] = useState(true)
-  
+  const [cartQuantity, setCartQuantity] = useState(true);
+
   return (
-    <GlobalContext.Provider value={{quantity, cartQuantity}}>
+    <GlobalContext.Provider value={{ quantity, cartQuantity }}>
       <View style={styles.container}>
         <CartIcon />
         <Image source={image} />
-        <Text style={{ fontSize: 16, fontWeight: "bold" }}> {name}</Text>
-        <Text>In details: {description}</Text>
-        <Text>Price: {price} SEK</Text>
-        <Text>In Stock: {stock}</Text>
+        <Text style={styles.text}> {name}</Text>
+        <Text style={{ fontSize: 18, marginBottom: 10 }}>{description}</Text>
+        <Text style={styles.text}>{price} SEK /st</Text>
+        <Text style={styles.text}>In Stock: {stock}</Text>
         <View style={styles.quantity}>
-          <Button title="-" onPress={() => dispatch({ type: "decreament" })} />
+          <Button
+            title="-"
+            onPress={() => dispatch({ type: "decreament" })}
+            style={styles.button}
+          />
           {/* <TextInput
         style={styles.input}
         onChangeText={setQuantity}
@@ -45,9 +49,12 @@ const Details = ({ route }) => {
           <Button
             title="+"
             onPress={() => dispatch({ type: "increment", value: stock })}
+            style={styles.button}
           />
         </View>
-        <Button title="Add" onPress={()=>setCartQuantity(false)}/>
+        <Pressable style={styles.button}>
+          <Text style={styles.btnText}>Add</Text>
+        </Pressable>
       </View>
     </GlobalContext.Provider>
   );
@@ -61,7 +68,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    padding: 15,
+    padding: 13,
+  },
+  text: {
+    fontSize: 22,
+    marginBottom: 10,
+    fontWeight: "bold",
   },
   itemImage: {
     width: 60,
@@ -80,5 +92,21 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     marginTop: 25,
+  },
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: 'black',
+  },
+  btnText: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: 'white',
   },
 });

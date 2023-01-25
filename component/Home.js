@@ -6,6 +6,7 @@ import {
   Image,
   Button,
   ScrollView,
+  Pressable,
 } from "react-native";
 import { url } from "./ApiData";
 
@@ -33,12 +34,12 @@ const Home = ({ navigation }) => {
                 source={require("../assets/icon.png")}
                 style={styles.itemImage}
               />
-              <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+              <Text style={{ fontSize: 22, marginBottom:15, fontWeight: "bold" }}>
                 {data.name}
               </Text>
-              <Text style={{ fontSize: 16 }}>{data.description}</Text>
-              <Button
-                title="Details"
+              <Text style={{ fontSize: 18, marginBottom:15}}>{data.description}</Text>
+              <Pressable
+                style={styles.button}
                 onPress={() =>
                   navigation.navigate("Details", {
                     name: `${data.name}`,
@@ -48,7 +49,9 @@ const Home = ({ navigation }) => {
                     price: `${data.price}`,
                   })
                 }
-              />
+              >
+                <Text style={styles.btnText}>Details</Text>
+              </Pressable>
             </>
           ))
         )}
@@ -68,10 +71,28 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   itemImage: {
-    width: 60,
-    height: 60,
+    width: 90,
+    height: 90,
     marginTop: 25,
+    marginBottom: 15,
     alignSelf: "center",
     marginHorizontal: 20,
+  },
+  button: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: "black",
+    marginBottom:25,
+  },
+  btnText: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: "bold",
+    letterSpacing: 0.25,
+    color: "white",
   },
 });

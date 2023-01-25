@@ -1,5 +1,5 @@
 import { View, StyleSheet, Text } from "react-native";
-import { Avatar, Badge } from "@rneui/themed";
+import { Avatar, Badge, Button } from "@rneui/themed";
 import React, { useContext, useEffect } from "react";
 import { GlobalContext } from "./Details";
 
@@ -10,6 +10,7 @@ const CartIcon = ({ navigation }) => {
   // })
   return (
     <View style={styles.container}>
+        {/* <Button onPress={()=>navigation.navigate("CartProducts")}/> */}
       <Avatar rounded source={require("../assets/cart.png")} size="small" />
       {GlobalContext.cartQuantity ? null : (
         <Badge
@@ -26,7 +27,7 @@ export default CartIcon;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: -180,
+    marginTop: -50,
     marginBottom: 50,
     right: -110,
   },
