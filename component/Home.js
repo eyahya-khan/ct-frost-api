@@ -19,7 +19,7 @@ const Home = ({ navigation }) => {
         ) : (
           GlobalConstantData.data.products.map((data, id) => (
             <>
-              <Image key = {id} source={{ uri: 'https://reactnative.dev/img/tiny_logo.png', }} style={styles.itemImage}/>
+              <Image source={{ uri: 'https://reactnative.dev/img/tiny_logo.png', }} style={styles.itemImage}/>
               {/* <Image source={{ uri: `${data.imageUrl}`, }} style={styles.itemImage}/> */}
               <Text style={{ fontSize: 22, marginBottom:15, fontWeight: "bold" }}
               >
@@ -30,12 +30,7 @@ const Home = ({ navigation }) => {
                 style={styles.button}
                 onPress={() =>
                   navigation.navigate("Details", {
-                    name: `${data.name}`,
                     id: `${id}`,
-                    description: `${data.description}`,
-                    image: `${data.imageUrl}`,
-                    stock: `${data.stock}`,
-                    price: `${data.price}`,
                   })
                 }
               >

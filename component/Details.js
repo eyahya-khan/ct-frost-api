@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useReducer, useState, useEffect } from "react";
+import { useReducer, useState, useEffect, useContext } from "react";
 import {
   Text,
   View,
@@ -8,75 +8,99 @@ import {
   Pressable,
   TextInput,
 } from "react-native";
+import { GlobalCont } from "../App";
 import CartIcon from "./CartIcon";
 
 const initialValue = 1;
 const reducer = (state, action) => {
   switch (action.type) {
     case "increment":
-      return state < action.value ? state + 1 : state;
-
+      if (state < action.value) {
+        return state + 1;
+      } else {
+        if (alert("Large value")) {
+          window.location.reload();
+        }
+      }
     case "decreament":
-      return state >= 2 ? state - 1 : state;
+      if (state >= 2) {
+        return state - 1;
+      } else {
+        if (alert("Small value")) {
+          window.location.reload();
+        }
+      }
     default:
       return initialValue;
   }
 };
 
 const Details = ({ route }) => {
+  const detailsContext = useContext(GlobalCont);
+
   const [quantity, dispatch] = useReducer(reducer, initialValue);
-  const { name, id, image, stock, price, description } = route.params;
+  const { id } = route.params;
   const [cartQuantity, setCartQuantity] = useState(false);
   const [items, setItems] = useState([]);
   // const [itemQuantity, setItemQuantity] = useState([]);
 
-  const handleAdd = async() => {
-    await AsyncStorage.setItem('id', JSON.stringify(items))
+  const handleAdd = async () => {
+    await AsyncStorage.setItem("id", JSON.stringify(items));
     // await AsyncStorage.setItem('quantity', JSON.stringify(itemQuantity))
     setCartQuantity(true);
   };
-  
-  useEffect(()=>{
-    setItems(id)
+
+  useEffect(() => {
+    setItems(id);
     // setItemQuantity(quantity)
-  },[])
+  }, []);
 
   return (
     <View style={styles.container}>
-      <CartIcon quantity={quantity} cartQuantity={cartQuantity} id={id}/>
-      <Image source={image} />
-      <Text style={styles.text}>
-        {name}
-      </Text>
-      <Text style={{ fontSize: 18, marginBottom: 10 }}>{description}</Text>
-      <Text style={styles.text}>{price} SEK /st</Text>
-      <Text style={styles.text}>In Stock: {stock}</Text>
-      <View style={styles.quantity}>
-        <Pressable
-          style={styles.buttonIncrease}
-          onPress={() => dispatch({ type: "decreament", value: stock })}
-        >
-          <Text style={styles.btnTextIncrease}>-</Text>
-        </Pressable>
-        {/* <TextInput
+      <CartIcon quantity={quantity} cartQuantity={cartQuantity} id={id} />
+      {detailsContext.data.products.map((data, Id) =>
+        Id == id ? (
+          <>
+            <Image source={data.imageUrl} />
+            <Text style={styles.text}>{data.name}</Text>
+            <Text style={{ fontSize: 18, marginBottom: 10 }}>
+              {data.description}
+            </Text>
+            <Text style={styles.text}>{data.price} SEK /st</Text>
+            <Text style={styles.text}>In Stock: {data.stock}</Text>
+            <View style={styles.quantity}>
+              <Pressable
+                style={styles.buttonIncrease}
+                onPress={() =>
+                  dispatch({ type: "decreament", value: data.stock })
+                }
+              >
+                <Text style={styles.btnTextIncrease}>-</Text>
+              </Pressable>
+              {/* <TextInput
             style={styles.textInput}
             onChangeText={setQuantity}
             value={quantity}
             placeholder="1"
             keyboardType="numeric"
-            /> */}
-        <Text style={styles.text}>{quantity}</Text>
+          /> */}
+              <Text style={styles.text}>{quantity}</Text>
 
-        <Pressable
-          style={styles.buttonIncrease}
-          onPress={() => dispatch({ type: "increment", value: stock })}
-        >
-          <Text style={styles.btnTextIncrease}>+</Text>
-        </Pressable>
-      </View>
-      <Pressable style={styles.button} onPress={handleAdd}>
-        <Text style={styles.btnText}>Add to cart</Text>
-      </Pressable>
+              <Pressable
+                style={styles.buttonIncrease}
+                onPress={() =>
+                  dispatch({ type: "increment", value: data.stock })
+                }
+              >
+                <Text style={styles.btnTextIncrease}>+</Text>
+              </Pressable>
+            </View>
+            <Pressable style={styles.button} onPress={handleAdd}>
+              <Text style={styles.btnText}>Add to cart</Text>
+            </Pressable>
+          </>
+        ) : null
+      )}
     </View>
   );
 };
@@ -95,7 +119,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     marginBottom: 10,
     fontWeight: "bold",
-    padding:5,
+    padding: 5,
   },
   itemImage: {
     width: 60,
@@ -105,8 +129,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   textInput: {
-    // height: 40,
-    // margin: 12,
     borderWidth: 1,
     padding: 10,
     fontSize: 22,
@@ -114,18 +136,13 @@ const styles = StyleSheet.create({
   },
   quantity: {
     flexDirection: "row",
-    // justifyContent: "center",
-    // marginTop: 25,
-    
   },
   buttonIncrease: {
     alignItems: "center",
     justifyContent: "center",
-    // paddingVertical: 5,
     paddingHorizontal: 15,
     padding: 5,
     borderRadius: 4,
-    // elevation: 3,
     backgroundColor: "green",
     marginBottom: 15,
   },
@@ -140,7 +157,6 @@ const styles = StyleSheet.create({
   },
   btnTextIncrease: {
     fontSize: 16,
-    // lineHeight: 21,
     fontWeight: "bold",
     letterSpacing: 0.25,
     color: "white",

@@ -62,8 +62,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   textInput: {
-    // height: 40,
-    // margin: 12,
     borderWidth: 1,
     padding: 10,
     fontSize: 22,
@@ -71,17 +69,13 @@ const styles = StyleSheet.create({
   },
   quantity: {
     flexDirection: "row",
-    // justifyContent: "center",
-    // marginTop: 25,
   },
   buttonIncrease: {
     alignItems: "center",
     justifyContent: "center",
-    // paddingVertical: 5,
     paddingHorizontal: 15,
     padding: 5,
     borderRadius: 4,
-    // elevation: 3,
     backgroundColor: "green",
     marginBottom: 15,
   },
@@ -96,7 +90,6 @@ const styles = StyleSheet.create({
   },
   btnTextIncrease: {
     fontSize: 16,
-    // lineHeight: 21,
     fontWeight: "bold",
     letterSpacing: 0.25,
     color: "white",
