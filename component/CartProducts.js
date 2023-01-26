@@ -1,15 +1,26 @@
-import { useContext } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useContext, useState } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { GlobalCont } from "../App";
 
 const CartProducts = ({ route, navigation }) => {
   const { quantity, id } = route.params;
   const cartContext = useContext(GlobalCont);
+  const [value, setValue] = useState([])
+
+  const handleRemove = async() =>{
+    await AsyncStorage.removeItem('id')
+    .then((value)=>{
+      setValue(value)
+    })
+ 
+    navigation.navigate("Success")
+  }
 
   return (
     <View style={styles.container}>
       {cartContext.data.products.map((data, dataId) =>
-        dataId == id ? (
+        dataId == id && value? (
           <View style={styles.quantity}>
             <Text style={styles.text}>{data.name}</Text>
             <Text style={styles.text}>{data.price}</Text>
@@ -19,7 +30,7 @@ const CartProducts = ({ route, navigation }) => {
         )}
       <Pressable
       style={styles.button}
-      onPress={() => navigation.navigate("Success")}
+      onPress={handleRemove}
       >
         <Text style={styles.btnText}>Buy</Text>
       </Pressable>

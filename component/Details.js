@@ -1,4 +1,5 @@
-import { useReducer, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useReducer, useState, useEffect } from "react";
 import {
   Text,
   View,
@@ -27,10 +28,18 @@ const Details = ({ route }) => {
   const { name, id, image, stock, price, description } = route.params;
   const [cartQuantity, setCartQuantity] = useState(false);
   const [items, setItems] = useState([]);
+  // const [itemQuantity, setItemQuantity] = useState([]);
 
-  const handleAdd = () => {
+  const handleAdd = async() => {
+    await AsyncStorage.setItem('id', JSON.stringify(items))
+    // await AsyncStorage.setItem('quantity', JSON.stringify(itemQuantity))
     setCartQuantity(true);
   };
+  
+  useEffect(()=>{
+    setItems(id)
+    // setItemQuantity(quantity)
+  },[])
 
   return (
     <View style={styles.container}>
@@ -66,7 +75,7 @@ const Details = ({ route }) => {
         </Pressable>
       </View>
       <Pressable style={styles.button} onPress={handleAdd}>
-        <Text style={styles.btnText}>Add</Text>
+        <Text style={styles.btnText}>Add to cart</Text>
       </Pressable>
     </View>
   );

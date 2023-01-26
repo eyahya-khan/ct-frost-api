@@ -1,14 +1,29 @@
+// import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StyleSheet, Pressable } from "react-native";
 import { Avatar, Badge } from "@rneui/themed";
 import { useNavigation } from "@react-navigation/native";
+// import { useState } from "react";
 
 const CartIcon = (props) => {
+  // const [value, setValue] = useState([])
+
   const navigation = useNavigation();
+
+  // AsyncStorage.getItem("quantity").then((value) => {
+  //   console.log(value)
+  //   setValue(value);
+  // });
+
   return (
     <>
       <Pressable
         style={styles.container}
-        onPress={() => navigation.navigate("Cartproducts",{quantity:`${props.quantity}`, id:`${props.id}`})}
+        onPress={() =>
+          navigation.navigate("Cartproducts", {
+            quantity: `${props.quantity}`,
+            id: `${props.id}`,
+          })
+        }
       >
         <Avatar rounded source={require("../assets/cart.png")} size="small" />
         {props.cartQuantity ? (
