@@ -2,37 +2,52 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useContext, useState } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { GlobalCont } from "../App";
+import Feather from "react-native-vector-icons/Feather";
 
-const CartProducts = ({ route, navigation }) => {
-  const { quantity, id } = route.params;
+const CartProducts = ({ navigation }) => {
   const cartContext = useContext(GlobalCont);
-  const [value, setValue] = useState([])
+  const [value, setValue] = useState([]);
+  const [buy, setBuy] = useState("Buy");
 
-  const handleRemove = async() =>{
-    await AsyncStorage.removeItem('id')
-    .then((value)=>{
-      setValue(value)
-    })
- 
-    navigation.navigate("Success")
-  }
+  const handleRemove = async () => {
+    const localId = await AsyncStorage.getItem("id");
+    if (localId) {
+      await AsyncStorage.removeItem("id").then((value) => {
+        setValue(value);
+      });
+      navigation.navigate("Success");
+    }
+  };
+  const handleDelete = async () => {
+    await AsyncStorage.removeItem("id").then((value) => {
+      setValue(value);
+    });
+    setBuy("Deleted");
+  };
+
+  // const name = {cartContext.cartItem.name}.replace(/[0-9]/g, '')
 
   return (
     <View style={styles.container}>
-      {cartContext.data.products.map((data, dataId) =>
-        dataId == id && value? (
-          <View style={styles.quantity}>
-            <Text style={styles.text}>{data.name}</Text>
-            <Text style={styles.text}>{data.price}</Text>
-            <Text>Total: {data.price * quantity} SEK</Text>
-          </View>
-        ) : null
-        )}
-      <Pressable
-      style={styles.button}
-      onPress={handleRemove}
-      >
-        <Text style={styles.btnText}>Buy</Text>
+      {value ? (
+        <View style={styles.quantity}>
+          <Text style={styles.text}>{cartContext.cartItem.name}</Text>
+          {/* <Text style={styles.text}>{name}</Text> */}
+          <Text style={styles.text}>{cartContext.cartItem.price} kr/st</Text>
+          <Text style={styles.text}>
+            Total: {cartContext.cartItem.quantity * cartContext.cartItem.price}{" "}
+            kr
+          </Text>
+          <Feather
+            onPress={handleDelete}
+            name="delete"
+            size={22}
+            color={"red"}
+          />
+        </View>
+      ) : null}
+      <Pressable style={styles.button} onPress={handleRemove}>
+        <Text style={styles.btnText}>{buy}</Text>
       </Pressable>
     </View>
   );
@@ -49,36 +64,17 @@ const styles = StyleSheet.create({
     padding: 13,
   },
   text: {
-    fontSize: 22,
+    flex: 1,
+    flexWrap: "wrap",
+    fontSize: 12,
     marginBottom: 10,
     fontWeight: "bold",
-    padding: 5,
-  },
-  itemImage: {
-    width: 60,
-    height: 60,
-    marginTop: 25,
-    alignSelf: "center",
-    marginHorizontal: 20,
-  },
-  textInput: {
-    borderWidth: 1,
-    padding: 10,
-    fontSize: 22,
-    fontWeight: "bold",
+    padding: 1,
   },
   quantity: {
     flexDirection: "row",
   },
-  buttonIncrease: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 15,
-    padding: 5,
-    borderRadius: 4,
-    backgroundColor: "green",
-    marginBottom: 15,
-  },
+
   button: {
     alignItems: "center",
     justifyContent: "center",
@@ -88,12 +84,7 @@ const styles = StyleSheet.create({
     elevation: 3,
     backgroundColor: "black",
   },
-  btnTextIncrease: {
-    fontSize: 16,
-    fontWeight: "bold",
-    letterSpacing: 0.25,
-    color: "white",
-  },
+
   btnText: {
     fontSize: 16,
     lineHeight: 21,

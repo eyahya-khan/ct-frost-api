@@ -4,7 +4,7 @@ import React from "react";
 const Success = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text>Your order is successfull</Text>
+      <Text style={styles.text}>Your order is successfull</Text>
       <Pressable
         style={styles.button}
         onPress={() => navigation.navigate("Home")}
@@ -24,6 +24,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 13,
+  },
+  text: {
+    fontSize: 18,
+    marginBottom: 15,
+    padding: 1,
   },
   button: {
     alignItems: "center",

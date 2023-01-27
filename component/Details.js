@@ -39,25 +39,32 @@ const Details = ({ route }) => {
   const detailsContext = useContext(GlobalCont);
 
   const [quantity, dispatch] = useReducer(reducer, initialValue);
-  const { id } = route.params;
+  const { id, name } = route.params;
   const [cartQuantity, setCartQuantity] = useState(false);
   const [items, setItems] = useState([]);
-  // const [itemQuantity, setItemQuantity] = useState([]);
+  const [itemQuantity, setItemQuantity] = useState([]);
+  // const [txtInput, setTxtInput] = useState(initialValue);
+  // console.log(txtInput);
 
   const handleAdd = async () => {
     await AsyncStorage.setItem("id", JSON.stringify(items));
-    // await AsyncStorage.setItem('quantity', JSON.stringify(itemQuantity))
+    await AsyncStorage.setItem("quantity", JSON.stringify(itemQuantity));
     setCartQuantity(true);
+    detailsContext.AddProduct(id, name, itemQuantity);
   };
+
+  // const handleText = (x) => {
+  //   setTxtInput(x) 
+  // };
 
   useEffect(() => {
     setItems(id);
-    // setItemQuantity(quantity)
-  }, []);
+    setItemQuantity(quantity);
+  }, [id, quantity]);
 
   return (
     <View style={styles.container}>
-      <CartIcon quantity={quantity} cartQuantity={cartQuantity} id={id} />
+      <CartIcon quantity={quantity} cartQuantity={cartQuantity} />
       {detailsContext.data.products.map((data, Id) =>
         Id == id ? (
           <>
@@ -66,7 +73,7 @@ const Details = ({ route }) => {
             <Text style={{ fontSize: 18, marginBottom: 10 }}>
               {data.description}
             </Text>
-            <Text style={styles.text}>{data.price} SEK /st</Text>
+            <Text style={styles.text}>{data.price} kr /st</Text>
             <Text style={styles.text}>In Stock: {data.stock}</Text>
             <View style={styles.quantity}>
               <Pressable
@@ -78,12 +85,12 @@ const Details = ({ route }) => {
                 <Text style={styles.btnTextIncrease}>-</Text>
               </Pressable>
               {/* <TextInput
-            style={styles.textInput}
-            onChangeText={setQuantity}
-            value={quantity}
-            placeholder="1"
-            keyboardType="numeric"
-          /> */}
+                style={styles.textInput}
+                onChangeText={handleText}
+                value={txtInput}
+                placeholder="1"
+                keyboardType="default"
+              /> */}
               <Text style={styles.text}>{quantity}</Text>
 
               <Pressable
@@ -130,9 +137,10 @@ const styles = StyleSheet.create({
   },
   textInput: {
     borderWidth: 1,
-    padding: 10,
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: "bold",
+    paddingLeft: 10,
+    paddingRight: 10,
   },
   quantity: {
     flexDirection: "row",

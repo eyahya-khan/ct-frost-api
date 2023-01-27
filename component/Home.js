@@ -31,6 +31,7 @@ const Home = ({ navigation }) => {
                 onPress={() =>
                   navigation.navigate("Details", {
                     id: `${id}`,
+                    name: `${data.name}`,
                   })
                 }
               >

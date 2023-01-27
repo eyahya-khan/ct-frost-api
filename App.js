@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Details from "./component/Details";
@@ -12,6 +13,7 @@ export const GlobalCont = createContext();
 
 export default function App() {
   const [data, setData] = useState([]);
+  const [cartItem, setCartItem] = useState({});
   const [loading, setLoadoing] = useState(true);
   const Stack = createNativeStackNavigator();
   useEffect(() => {
@@ -21,8 +23,25 @@ export default function App() {
       .catch((error) => console.error(error))
       .finally(() => setLoadoing(false));
   }, []);
+
+  const AddProduct = (Id, Name, itemQuantity) => {
+    const result = data.products.find(({ name }) => name === Name);
+    const newResult = Object.assign(
+      result,
+      { quantity: itemQuantity },
+      { id: Id }
+    );
+    setCartItem(newResult);
+  };
+
+  const RemoveProduct = () => {
+    console.log("Remove product");
+  };
+
   return (
-    <GlobalCont.Provider value={{ data, loading }}>
+    <GlobalCont.Provider
+      value={{ data, loading, AddProduct, RemoveProduct, cartItem }}
+    >
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="Home" component={Home} />
