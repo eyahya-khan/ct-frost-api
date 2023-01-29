@@ -1,30 +1,27 @@
 import { StyleSheet, Pressable } from "react-native";
 import { Avatar, Badge } from "@rneui/themed";
 import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useContext } from "react";
+import { GlobalCont } from "../App";
 
 const CartIcon = (props) => {
   const navigation = useNavigation();
-  
-  // const localQty = AsyncStorage.getItem("quantity")
+  const cartIconContext = useContext(GlobalCont);
 
-  const handleCartIcon = async() =>{
-    const localId = await AsyncStorage.getItem("id")
-    if(localId){
-      navigation.navigate("Cartproducts")
-    }else{
-      alert('Click Add to cart')
+  const handleCartIcon = async () => {
+    {
+      props.quantity > 0 && props.quantity <= cartIconContext.cartItem.stock
+        ? navigation.navigate("Cartproducts", { quant: `${props.quantity}` })
+        : alert("No product selected.");
     }
-  }
+  };
 
   return (
     <>
-      <Pressable
-        style={styles.container}
-        onPress={handleCartIcon}
-      >
+      <Pressable style={styles.container} onPress={handleCartIcon}>
         <Avatar rounded source={require("../assets/cart.png")} size="small" />
-        {props.cartQuantity ? (
+        {props.quantity > 0 &&
+        props.quantity <= cartIconContext.cartItem.stock ? (
           <Badge
             status="success"
             value={props.quantity}

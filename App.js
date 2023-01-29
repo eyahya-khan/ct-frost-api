@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Details from "./component/Details";
@@ -14,6 +13,8 @@ export const GlobalCont = createContext();
 export default function App() {
   const [data, setData] = useState([]);
   const [cartItem, setCartItem] = useState({});
+  const [txtInputDisplay, setTxtInputDisplay] = useState(false);
+
   const [loading, setLoadoing] = useState(true);
   const Stack = createNativeStackNavigator();
   useEffect(() => {
@@ -24,23 +25,19 @@ export default function App() {
       .finally(() => setLoadoing(false));
   }, []);
 
-  const AddProduct = (Id, Name, itemQuantity) => {
+  const AddProduct = (Id, Name, txtInput) => {
     const result = data.products.find(({ name }) => name === Name);
-    const newResult = Object.assign(
-      result,
-      { quantity: itemQuantity },
-      { id: Id }
-    );
+    const newResult = Object.assign(result, { quantity: txtInput }, { id: Id });
     setCartItem(newResult);
-  };
 
-  const RemoveProduct = () => {
-    console.log("Remove product");
+    txtInput > result.stock || txtInput < 1
+      ? alert("Check stock limit")
+      : setTxtInputDisplay(true);
   };
 
   return (
     <GlobalCont.Provider
-      value={{ data, loading, AddProduct, RemoveProduct, cartItem }}
+      value={{ data, loading, AddProduct, cartItem, txtInputDisplay }}
     >
       <NavigationContainer>
         <Stack.Navigator>

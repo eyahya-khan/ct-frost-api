@@ -1,4 +1,4 @@
-import React, { useContext} from "react";
+import React, { useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -10,7 +10,7 @@ import {
 import { GlobalCont } from "../App";
 
 const Home = ({ navigation }) => {
-  const GlobalConstantData = useContext(GlobalCont)
+  const GlobalConstantData = useContext(GlobalCont);
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -19,13 +19,19 @@ const Home = ({ navigation }) => {
         ) : (
           GlobalConstantData.data.products.map((data, id) => (
             <>
-              <Image source={{ uri: 'https://reactnative.dev/img/tiny_logo.png', }} style={styles.itemImage}/>
+              <Image
+                source={{ uri: "https://reactnative.dev/img/tiny_logo.png" }}
+                style={styles.itemImage}
+              />
               {/* <Image source={{ uri: `${data.imageUrl}`, }} style={styles.itemImage}/> */}
-              <Text style={{ fontSize: 22, marginBottom:15, fontWeight: "bold" }}
+              <Text
+                style={{ fontSize: 22, marginBottom: 15, fontWeight: "bold" }}
               >
                 {data.name}
               </Text>
-              <Text style={{ fontSize: 18, marginBottom:15}}>{data.description}</Text>
+              <Text style={{ fontSize: 18, marginBottom: 15 }}>
+                {data.description}
+              </Text>
               <Pressable
                 style={styles.button}
                 onPress={() =>
@@ -71,7 +77,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     elevation: 3,
     backgroundColor: "black",
-    marginBottom:25,
+    marginBottom: 25,
   },
   btnText: {
     fontSize: 16,

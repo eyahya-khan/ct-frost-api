@@ -9,7 +9,7 @@ const Success = ({ navigation }) => {
         style={styles.button}
         onPress={() => navigation.navigate("Home")}
       >
-        <Text style={styles.btnText}>Go back</Text>
+        <Text style={styles.btnText}>Home</Text>
       </Pressable>
     </View>
   );
