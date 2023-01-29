@@ -3,12 +3,15 @@ import { Avatar, Badge } from "@rneui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { useContext } from "react";
 import { GlobalCont } from "../App";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const CartIcon = (props) => {
   const navigation = useNavigation();
   const cartIconContext = useContext(GlobalCont);
 
-  const handleCartIcon = async () => {
+  const localId = AsyncStorage.getItem('id')
+
+  const handleCartIcon = () => {
     {
       props.quantity > 0 && props.quantity <= cartIconContext.cartItem.stock
         ? navigation.navigate("Cartproducts", { quant: `${props.quantity}` })
@@ -21,7 +24,7 @@ const CartIcon = (props) => {
       <Pressable style={styles.container} onPress={handleCartIcon}>
         <Avatar rounded source={require("../assets/cart.png")} size="small" />
         {props.quantity > 0 &&
-        props.quantity <= cartIconContext.cartItem.stock ? (
+        props.quantity <= cartIconContext.cartItem.stock && localId ? (
           <Badge
             status="success"
             value={props.quantity}

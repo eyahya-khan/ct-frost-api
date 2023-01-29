@@ -123,6 +123,12 @@ const styles = StyleSheet.create({
     backgroundColor: "green",
     marginBottom: 15,
   },
+  btnTextIncrease: {
+    fontSize: 16,
+    fontWeight: "bold",
+    letterSpacing: 0.25,
+    color: "white",
+  },
   textQnty: {
     fontSize: 22,
     marginBottom: 10,
@@ -140,7 +146,6 @@ const styles = StyleSheet.create({
   quantity: {
     flexDirection: "row",
   },
-
   button: {
     alignItems: "center",
     justifyContent: "center",
@@ -150,7 +155,6 @@ const styles = StyleSheet.create({
     elevation: 3,
     backgroundColor: "black",
   },
-
   btnText: {
     fontSize: 16,
     lineHeight: 21,
