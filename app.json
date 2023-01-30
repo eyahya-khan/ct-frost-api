@@ -1,13 +1,14 @@
 {
   "expo": {
-    "name": "ct-frost-api",
-    "slug": "ct-frost-api",
+    "name": "Cat store",
+    "slug": "Cat-app",
+    "description":"This is a cat store ecommerce site",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/eyahyakhan.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/eyahyakhan.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

@@ -1,4 +1,4 @@
-export const url = "http://cat-store-api.frostdigital.se/api";
+//  const url = "http://cat-store-api.frostdigital.se/api";
 
 export const data = {
   products: [

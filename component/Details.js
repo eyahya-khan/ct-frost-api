@@ -6,9 +6,11 @@ import {
   StyleSheet,
   Pressable,
   TextInput,
+  ScrollView,
 } from "react-native";
 import { GlobalCont } from "../App";
 import CartIcon from "./CartIcon";
+import { data } from "./ApiData";
 
 const Details = ({ route }) => {
   const detailsContext = useContext(GlobalCont);
@@ -22,14 +24,18 @@ const Details = ({ route }) => {
   const handleText = (x) => {
     setTxtInput(x);
   };
-
+  
   return (
-    <View style={styles.container}>
+    <ScrollView>
+          <View style={styles.container}>
       <CartIcon quantity={txtInput} />
-      {detailsContext.data.products.map((data, Id) =>
+      {data.products.map((data, Id) =>
         Id == id ? (
           <>
-            <Image source={data.imageUrl} />
+            <Image
+                source={{ uri: `${data.imageUrl}` }}
+                style={styles.itemImage}
+              />
             <Text style={styles.text}>{data.name}</Text>
             <Text style={{ fontSize: 18, marginBottom: 10 }}>
               {data.description}
@@ -50,6 +56,8 @@ const Details = ({ route }) => {
         ) : null
       )}
     </View>
+    </ScrollView>
+
   );
 };
 
@@ -62,6 +70,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 13,
+  },
+  itemImage: {
+    width: 130,
+    height: 90,
+    alignSelf: "center",
+    marginHorizontal: 20,
+    borderRadius: 10,
   },
   text: {
     fontSize: 22,

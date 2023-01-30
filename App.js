@@ -4,27 +4,18 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Details from "./component/Details";
 import Home from "./component/Home";
 import CartProducts from "./component/CartProducts";
-import { createContext, useState, useEffect } from "react";
-import { url } from "./component/ApiData";
+import { createContext, useState } from "react";
 import CartIcon from "./component/CartIcon";
 import Success from "./component/Success"
+import { data } from "./component/ApiData";
 
 export const GlobalCont = createContext();
 
 export default function App() {
-  const [data, setData] = useState([]);
   const [cartItem, setCartItem] = useState({});
   const [txtInputDisplay, setTxtInputDisplay] = useState(false);
 
-  const [loading, setLoadoing] = useState(true);
   const Stack = createNativeStackNavigator();
-  useEffect(() => {
-    fetch(url)
-      .then((res) => res.json())
-      .then((json) => setData(json))
-      .catch((error) => console.error(error))
-      .finally(() => setLoadoing(false));
-  }, []);
 
   const AddProduct = (Id, Name, txtInput) => {
     const result = data.products.find(({ name }) => name === Name);
@@ -41,7 +32,7 @@ export default function App() {
 
   return (
     <GlobalCont.Provider
-      value={{ data, loading, AddProduct, cartItem, txtInputDisplay }}
+      value={{ AddProduct, cartItem, txtInputDisplay }}
     >
       <NavigationContainer>
         <Stack.Navigator>

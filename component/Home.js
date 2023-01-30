@@ -12,9 +12,9 @@ import { data } from "./ApiData";
 const Home = ({ navigation }) => {
   return (
     <ScrollView>
-      <View style={styles.container}>
+      <View>
         {data.products.map((data, id) => (
-          <View key={id} style={styles.headerWrapper}>
+          <View key={id} style={styles.container}>
             <Pressable
               style={styles.button}
               onPress={() =>
@@ -45,25 +45,23 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    padding: 15,
-    borderBottomColor: "grey",
+    padding: 10,
+    borderBottomColor: "red",
+    marginBottom: 30,
+    marginTop: 30,
     borderBottomWidth: 2,
   },
   itemImage: {
-    width: 90,
+    width: 140,
     height: 90,
     alignSelf: "center",
     marginHorizontal: 20,
     borderRadius: 10,
   },
-  headerWrapper: {
-    borderBottomColor: "red",
-    borderBottomWidth: 2,
-    marginBottom: 30,
-  },
   text: {
     fontSize: 22,
     fontWeight: "bold",
     padding: 5,
+    textAlign:"center"
   },
 });
