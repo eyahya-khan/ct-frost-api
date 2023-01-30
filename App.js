@@ -7,7 +7,7 @@ import CartProducts from "./component/CartProducts";
 import { createContext, useState, useEffect } from "react";
 import { url } from "./component/ApiData";
 import CartIcon from "./component/CartIcon";
-import Success from "./component/Success";
+import Success from "./component/Success"
 
 export const GlobalCont = createContext();
 

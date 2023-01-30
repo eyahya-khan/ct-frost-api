@@ -1,51 +1,37 @@
-import React, { useContext } from "react";
 import {
-  StyleSheet,
-  Text,
   View,
+  Text,
+  StyleSheet,
   Image,
-  ScrollView,
   Pressable,
+  ScrollView,
 } from "react-native";
-import { GlobalCont } from "../App";
+import React from "react";
+import { data } from "./ApiData";
 
 const Home = ({ navigation }) => {
-  const GlobalConstantData = useContext(GlobalCont);
   return (
     <ScrollView>
       <View style={styles.container}>
-        {GlobalConstantData.loading ? (
-          <Text>loading....</Text>
-        ) : (
-          GlobalConstantData.data.products.map((data, id) => (
-            <>
+        {data.products.map((data, id) => (
+          <View key={id} style={styles.headerWrapper}>
+            <Pressable
+              style={styles.button}
+              onPress={() =>
+                navigation.navigate("Details", {
+                  id: `${id}`,
+                  name: `${data.name}`,
+                })
+              }
+            >
               <Image
-                source={{ uri: "https://reactnative.dev/img/tiny_logo.png" }}
+                source={{ uri: `${data.imageUrl}` }}
                 style={styles.itemImage}
               />
-              {/* <Image source={{ uri: `${data.imageUrl}`, }} style={styles.itemImage}/> */}
-              <Text
-                style={{ fontSize: 22, marginBottom: 15, fontWeight: "bold" }}
-              >
-                {data.name}
-              </Text>
-              <Text style={{ fontSize: 18, marginBottom: 15 }}>
-                {data.description}
-              </Text>
-              <Pressable
-                style={styles.button}
-                onPress={() =>
-                  navigation.navigate("Details", {
-                    id: `${id}`,
-                    name: `${data.name}`,
-                  })
-                }
-              >
-                <Text style={styles.btnText}>Details</Text>
-              </Pressable>
-            </>
-          ))
-        )}
+              <Text style={styles.text}>{data.name}</Text>
+            </Pressable>
+          </View>
+        ))}
       </View>
     </ScrollView>
   );
@@ -60,30 +46,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 15,
+    borderBottomColor: "grey",
+    borderBottomWidth: 2,
   },
   itemImage: {
     width: 90,
     height: 90,
-    marginTop: 25,
-    marginBottom: 15,
     alignSelf: "center",
     marginHorizontal: 20,
+    borderRadius: 10,
   },
-  button: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 4,
-    elevation: 3,
-    backgroundColor: "black",
-    marginBottom: 25,
+  headerWrapper: {
+    borderBottomColor: "red",
+    borderBottomWidth: 2,
+    marginBottom: 30,
   },
-  btnText: {
-    fontSize: 16,
-    lineHeight: 21,
+  text: {
+    fontSize: 22,
     fontWeight: "bold",
-    letterSpacing: 0.25,
-    color: "white",
+    padding: 5,
   },
 });
